@@ -18,27 +18,7 @@
         android:strokeLineCap="round"
         android:strokeWidth="4" />
 
-    <group
-        android:pivotX="45"
-        android:pivotY="49"
-        android:rotation="-10">
-        <path
-            android:fillColor="#FFFFFF"
-            android:pathData="M45,34 C40,34 37,41 37,49 C37,55 40,61 42,66 C43,67 44,68 45,67 L52,66 C53,66 54,65 54,63 C54,57 57,52 57,46 C56,39 51,34 45,34 Z" />
-        <path
-            android:fillColor="#FFFFFF"
-            android:pathData="M46,69 C42,69 39,72 39,76 C39,80 42,83 46,83 C50,83 53,80 53,76 C53,72 50,69 46,69 Z" />
-    </group>
-
-    <group
-        android:pivotX="63"
-        android:pivotY="56"
-        android:rotation="12">
-        <path
-            android:fillColor="#FFFFFF"
-            android:pathData="M63,40 C58,40 55,47 55,56 C55,62 58,68 60,73 C61,74 62,75 64,74 L70,73 C72,73 73,72 73,70 C72,64 76,59 75,53 C75,45 69,40 63,40 Z" />
-        <path
-            android:fillColor="#FFFFFF"
-            android:pathData="M64,76 C60,76 57,79 57,83 C57,87 60,90 64,90 C68,90 71,87 71,83 C71,79 68,76 64,76 Z" />
-    </group>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,65 C53,63 50,61 48,58 C45,55 43,53 43,49 C43,45 46,42 50,42 C52,42 54,43 54,45 C55,43 57,42 59,42 C63,42 66,45 66,49 C66,53 63,55 60,58 C58,61 55,63 54,65 Z" />
 </vector>
