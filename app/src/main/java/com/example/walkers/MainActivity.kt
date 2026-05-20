@@ -45,7 +45,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         hasStepCounter.value = deviceHasStepCounter()
-        hasActivityRecognitionPermission.value = hasPermission(Manifest.permission.ACTIVITY_RECOGNITION)
+        hasActivityRecognitionPermission.value = hasActivityRecognitionPermission()
 
         setContent {
             val viewModel: WalkersViewModel = viewModel()
@@ -74,6 +74,12 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun requestActivityRecognitionPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            hasActivityRecognitionPermission.value = true
+            startTrackingServiceIfReady()
+            return
+        }
+
         activityRecognitionPermissionLauncher.launch(Manifest.permission.ACTIVITY_RECOGNITION)
     }
 
@@ -94,6 +100,11 @@ class MainActivity : ComponentActivity() {
     private fun deviceHasStepCounter(): Boolean {
         val sensorManager = getSystemService(SensorManager::class.java)
         return sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) != null
+    }
+
+    private fun hasActivityRecognitionPermission(): Boolean {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.Q ||
+            hasPermission(Manifest.permission.ACTIVITY_RECOGNITION)
     }
 
     private fun hasPermission(permission: String): Boolean {
