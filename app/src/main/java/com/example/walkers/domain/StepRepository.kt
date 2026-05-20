@@ -56,9 +56,22 @@ class StepRepository private constructor(context: Context) {
                     endedAt = null,
                     steps = 0,
                     distanceKm = 0.0,
-                    isActive = true
+                    isActive = true,
+                    isPaused = false
                 )
             )
+        }
+    }
+
+    suspend fun pauseManualSession() {
+        recordMutex.withLock {
+            sessionDao.pauseActive()
+        }
+    }
+
+    suspend fun resumeManualSession() {
+        recordMutex.withLock {
+            sessionDao.resumeActive()
         }
     }
 

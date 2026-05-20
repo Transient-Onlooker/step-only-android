@@ -10,5 +10,6 @@ data class WalkingSessionEntity(
     val endedAt: Long?,
     val steps: Long,
     val distanceKm: Double,
-    val isActive: Boolean
+    val isActive: Boolean,
+    val isPaused: Boolean = false
 )

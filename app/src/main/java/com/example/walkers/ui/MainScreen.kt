@@ -48,6 +48,8 @@ fun MainScreen(
     hasActivityRecognitionPermission: Boolean,
     onRequestActivityRecognitionPermission: () -> Unit,
     onStartSession: () -> Unit,
+    onPauseSession: () -> Unit,
+    onResumeSession: () -> Unit,
     onFinishSession: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -87,6 +89,8 @@ fun MainScreen(
                 0 -> TodayScreen(
                     summary = uiState.summary,
                     onStartSession = onStartSession,
+                    onPauseSession = onPauseSession,
+                    onResumeSession = onResumeSession,
                     onFinishSession = onFinishSession
                 )
 
@@ -101,6 +105,8 @@ fun MainScreen(
 private fun TodayScreen(
     summary: StepSummary,
     onStartSession: () -> Unit,
+    onPauseSession: () -> Unit,
+    onResumeSession: () -> Unit,
     onFinishSession: () -> Unit
 ) {
     LazyColumn(
@@ -147,6 +153,8 @@ private fun TodayScreen(
             } else {
                 ActiveSessionCard(
                     session = activeSession,
+                    onPauseSession = onPauseSession,
+                    onResumeSession = onResumeSession,
                     onFinishSession = onFinishSession
                 )
             }
@@ -246,6 +254,8 @@ private fun SessionHistoryScreen(sessions: List<WalkingSessionEntity>) {
 @Composable
 private fun ActiveSessionCard(
     session: WalkingSessionEntity,
+    onPauseSession: () -> Unit,
+    onResumeSession: () -> Unit,
     onFinishSession: () -> Unit
 ) {
     Card(
@@ -259,7 +269,7 @@ private fun ActiveSessionCard(
                 .padding(16.dp)
         ) {
             Text(
-                text = "기록 중",
+                text = if (session.isPaused) "기록 일시중지" else "기록 중",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -273,11 +283,22 @@ private fun ActiveSessionCard(
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = "시작 시간 ${formatTime(session.startedAt)}")
             Spacer(modifier = Modifier.height(12.dp))
-            OutlinedButton(
-                onClick = onFinishSession,
-                modifier = Modifier.fillMaxWidth()
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Text("기록 끝")
+                OutlinedButton(
+                    onClick = if (session.isPaused) onResumeSession else onPauseSession,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(if (session.isPaused) "기록 재개" else "기록 일시중지")
+                }
+                Button(
+                    onClick = onFinishSession,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text("기록 중지")
+                }
             }
         }
     }
@@ -322,7 +343,7 @@ private fun SessionRow(session: WalkingSessionEntity) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "${formatTime(session.startedAt)} ~ ${session.endedAt?.let(::formatTime) ?: "진행 중"}"
+                    text = "${formatTime(session.startedAt)} ~ ${session.endedAt?.let(::formatTime) ?: if (session.isPaused) "일시중지" else "진행 중"}"
                 )
             }
             Spacer(modifier = Modifier.height(4.dp))

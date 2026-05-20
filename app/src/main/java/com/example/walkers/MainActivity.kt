@@ -58,6 +58,8 @@ class MainActivity : ComponentActivity() {
                     hasActivityRecognitionPermission = hasActivityRecognitionPermission.value,
                     onRequestActivityRecognitionPermission = ::requestActivityRecognitionPermission,
                     onStartSession = viewModel::startManualSession,
+                    onPauseSession = viewModel::pauseManualSession,
+                    onResumeSession = viewModel::resumeManualSession,
                     onFinishSession = viewModel::finishManualSession
                 )
             }

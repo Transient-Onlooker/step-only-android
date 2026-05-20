@@ -43,6 +43,18 @@ class WalkersViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
+    fun pauseManualSession() {
+        viewModelScope.launch {
+            repository.pauseManualSession()
+        }
+    }
+
+    fun resumeManualSession() {
+        viewModelScope.launch {
+            repository.resumeManualSession()
+        }
+    }
+
     fun finishManualSession() {
         viewModelScope.launch {
             repository.finishManualSession()
